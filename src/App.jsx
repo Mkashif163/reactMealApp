@@ -1,5 +1,11 @@
+import Header from "./components/Layout/Header/Header";
+
 function App() {
-  return <>Kashif</>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
 
 export default App;
