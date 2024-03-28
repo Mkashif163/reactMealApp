@@ -1,24 +1,13 @@
 /* eslint-disable react/display-name */
+import React from "react";
+
 import classes from "./Input.module.css";
-import { useImperativeHandle, useRef, forwardRef } from "react";
 
-const Input = forwardRef((props, ref) => {
-  const inputRef = useRef();
-
-  const createRef = () => {
-    return {
-      focus: () => {
-        inputRef.current.focus();
-      },
-    };
-  };
-
-  useImperativeHandle(ref, createRef);
-
+const Input = React.forwardRef((props, ref) => {
   return (
     <div className={classes.input}>
       <label htmlFor={props.input.id}>{props.label}</label>
-      <input ref={inputRef} {...props.input} />
+      <input ref={ref} {...props.input} />
     </div>
   );
 });
