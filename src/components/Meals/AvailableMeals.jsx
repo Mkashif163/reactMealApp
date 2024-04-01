@@ -13,7 +13,7 @@ const AvailableMeals = () => {
     (async () => {
       try {
         const db = getDatabase(app);
-        const mealsRef = ref(db, "reactMeals/meals");
+        const mealsRef = ref(db, "meals");
         const mealsSnapshot = await get(mealsRef);
         if (mealsSnapshot.exists()) {
           const mealsData = mealsSnapshot.val();

@@ -1,4 +1,7 @@
 import { useContext, useState } from "react";
+import app from "../../firebaseConfig";
+
+import { getDatabase, ref, set } from "firebase/database";
 
 import Modal from "../UI/Modal/Modal";
 import CartItem from "./CartItem";
@@ -23,6 +26,20 @@ const Cart = (props) => {
 
   const orderHandler = () => {
     setIsCheckout(true);
+  };
+
+  const submitOrderHandler = (userData) => {
+    const db = getDatabase(app);
+    const ordersRef = ref(db, "reactMeals/orders");
+
+    const newOrder = {
+      user: userData,
+      orderedItems: cartCtx.items,
+    };
+
+    set(ordersRef, newOrder);
+
+    cartCtx.clearCart();
   };
 
   const cartItems = (
@@ -60,7 +77,9 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={props.onClose} />}
+      {isCheckout && (
+        <Checkout onCancel={props.onClose} onConfirm={submitOrderHandler} />
+      )}
       {!isCheckout && modalActions}
     </Modal>
   );
