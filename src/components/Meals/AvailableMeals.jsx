@@ -7,6 +7,7 @@ import { getDatabase, ref, get } from "firebase/database";
 
 const AvailableMeals = () => {
   const [DUMMY_MEALS, setDUMMY_MEALS] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -26,8 +27,10 @@ const AvailableMeals = () => {
             });
           }
           setDUMMY_MEALS(loadedMeals);
+          setIsLoading(false);
         }
       } catch (error) {
+        setIsLoading(false);
         console.error("Error fetching data: ", error);
       }
     })();
