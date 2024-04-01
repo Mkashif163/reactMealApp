@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import app from "../../firebaseConfig";
 
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, push } from "firebase/database";
 
 import Modal from "../UI/Modal/Modal";
 import CartItem from "./CartItem";
@@ -30,15 +30,24 @@ const Cart = (props) => {
 
   const submitOrderHandler = (userData) => {
     const db = getDatabase(app);
-    const ordersRef = ref(db, "reactMeals/orders");
+    const ordersRef = ref(db, "orders");
 
     const newOrder = {
-      user: userData,
-      orderedItems: cartCtx.items,
+      order: {
+        orderId: new Date().toISOString(),
+        user: userData,
+        orderedItems: cartCtx.items,
+        date: new Date(),
+      },
     };
 
-    set(ordersRef, newOrder);
+    // Generate a unique key for the new order
+    const newOrderRef = push(ordersRef);
 
+    // Set the new order object under the generated key
+    set(newOrderRef, newOrder);
+
+    // Clear the cart after submitting the order
     cartCtx.clearCart();
   };
 

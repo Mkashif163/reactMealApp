@@ -58,6 +58,8 @@ const Checkout = (props) => {
     streetInputRef.current.value = "";
     postalCodeInputRef.current.value = "";
     cityInputRef.current.value = "";
+
+    props.onCancel();
   };
 
   const nameControlClasses = `${classes.control} ${
